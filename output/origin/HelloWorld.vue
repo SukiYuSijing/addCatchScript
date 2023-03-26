@@ -29,8 +29,8 @@ import { aa, bb, cc } from "./common/apis";
 export default defineComponent({
   setup() {
     try {
-      aa().then(err => err)?.catch(err1 => {
-        message.error(err1.msg || "this.$message");
+      aa()?.catch(err => {
+        message.error(err.msg || "this.$message");
       });
       aa(() => {
         const a = "b";
@@ -43,14 +43,14 @@ export default defineComponent({
       cc().then(err => err)?.catch(err1 => {
         message.error(err1.msg || "this.$message");
       });
-      cc()?.catch(err => {
-        message.error(err.msg || "this.$message");
+      cc().then(err => err)?.catch(err1 => {
+        message.error(err1.msg || "this.$message");
       });
-      bb()?.catch(err => {
-        message.error(err.msg || "this.$message");
+      bb().then(err => err)?.catch(err1 => {
+        message.error(err1.msg || "this.$message");
       });
-      aa()?.catch(err => {
-        message.error(err.msg || "this.$message");
+      aa().then(err => err)?.catch(err1 => {
+        message.error(err1.msg || "this.$message");
       });
     } catch (error) {}
   }

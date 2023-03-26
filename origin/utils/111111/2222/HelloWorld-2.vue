@@ -1,10 +1,12 @@
-<script setup="">import { ref } from "./vue";
+<script setup="">
+import { ref } from "./vue";
 defineProps({
-  msg: String
+  msg: String,
 });
 const count = ref(0);
 console.log(import.meta, import.meta.env);
-const url = import.meta.env.VITE_APP_HOST;</script>
+const url = import.meta.env.VITE_APP_HOST;
+</script>
 
 <template>
   <h1>{{ 111111 + url }}</h1>
@@ -17,9 +19,10 @@ const url = import.meta.env.VITE_APP_HOST;</script>
     </p>
   </div>
 </template>
-<script>import { ref } from "vue";
+<script>
+import { ref } from "vue";
 defineProps({
-  msg: String
+  msg: String,
 });
 const count = ref(0);
 console.log(import.meta, import.meta.env);
@@ -29,9 +32,7 @@ import { aa, bb, cc } from "./common/apis";
 export default defineComponent({
   setup() {
     try {
-      aa()?.catch(err => {
-        message.error(err.msg || "this.$message");
-      });
+      aa();
       aa(() => {
         const a = "b";
         const a1 = "b";
@@ -39,23 +40,16 @@ export default defineComponent({
         const a3 = "b";
         const a4 = "b";
         return a;
-      })?.catch(err => err);
-      cc()?.catch(err => {
-        message.error(err.msg || "this.$message");
-      });
-      cc()?.catch(err => {
-        message.error(err.msg || "this.$message");
-      });
-      bb()?.catch(err => {
-        message.error(err.msg || "this.$message");
-      });
-      aa()?.catch(err => {
-        message.error(err.msg || "this.$message");
-      });
+      })?.catch((err) => err);
+      cc();
+      cc();
+      bb();
+      aa();
     } catch (error) {}
-  }
+  },
 });
-import { defineComponent1 } from "@vue/composition-api";</script>
+import { defineComponent1 } from "@vue/composition-api";
+</script>
 
 <style scoped="">
 .read-the-docs {

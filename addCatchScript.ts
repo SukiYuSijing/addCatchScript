@@ -2,7 +2,7 @@
  * @Author: SukiYuSijing 15767301655@163.com
  * @Date: 2023-03-24 01:56:53
  * @LastEditors: SukiYuSijing 15767301655@163.com
- * @LastEditTime: 2023-03-26 18:44:27
+ * @LastEditTime: 2023-03-26 19:07:36
  * @FilePath: \pre-bundle-learning-vite-catch\src\script123.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -73,6 +73,8 @@ function _transform(fileNameOrDirNameArray, writeFile = true) {
 
                     }
                 }
+                console.log(absoluteOutFile);
+
                 if (writeFile) fs.writeFile(absoluteOutFile, outputText, (err, data) => {
                     console.log("写入成功");
                 })

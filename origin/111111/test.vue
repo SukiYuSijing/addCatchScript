@@ -29,19 +29,14 @@ import { aa, bb, cc } from "./common/apis";
 export default defineComponent({
   setup() {
     try {
+      aa().then(err => err)?.then()?.catch(err1 => {
+        message.error(err1.msg || "this.$message");
+      });
       aa()?.catch(err => {
         message.error(err.msg || "this.$message");
       });
-      aa(() => {
-        const a = "b";
-        const a1 = "b";
-        const a2 = "b";
-        const a3 = "b";
-        const a4 = "b";
-        return a;
-      })?.catch(err => err);
-      cc()?.catch(err => {
-        message.error(err.msg || "this.$message");
+      cc().then(err => err)?.catch(err1 => {
+        message.error(err1.msg || "this.$message");
       });
       cc()?.catch(err => {
         message.error(err.msg || "this.$message");
