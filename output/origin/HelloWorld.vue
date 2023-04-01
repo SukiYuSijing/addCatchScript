@@ -27,32 +27,46 @@ const url = import.meta.env.VITE_APP_HOST;
 import { defineComponent } from "@vue/composition-api";
 import { aa, bb, cc } from "./common/apis";
 export default defineComponent({
-  setup() {
+  async setup() {
     try {
-      aa()?.catch(err => {
+      bb({
+        a: 1,
+        b
+      })?.catch(err => {
         message.error(err.msg || "this.$message");
       });
-      aa(() => {
-        const a = "b";
-        const a1 = "b";
-        const a2 = "b";
-        const a3 = "b";
-        const a4 = "b";
-        return a;
-      })?.catch(err => err);
-      cc().then(err => err)?.catch(err1 => {
+      bb({
+        a: 1,
+        b
+      }).then(a => {
+        a--;
+        return a + "N1111";
+      })?.catch(err1 => {
         message.error(err1.msg || "this.$message");
       });
-      cc().then(err => err)?.catch(err1 => {
+      await aa({
+        a: 1,
+        b
+      }).then(a => {
+        return a + "N";
+      }).catch(err1 => {
         message.error(err1.msg || "this.$message");
       });
-      bb().then(err => err)?.catch(err1 => {
+      await aa({
+        a: 1,
+        b
+      }).catch(err1 => {
         message.error(err1.msg || "this.$message");
-      });
-      aa().then(err => err)?.catch(err1 => {
+      }).catch(err1 => {
         message.error(err1.msg || "this.$message");
       });
     } catch (error) {}
+    await aa({
+      a: 1,
+      b
+    }).then().catch(err1 => {
+      message.error(err1.msg || "this.$message");
+    });
   }
 });
 import { defineComponent1 } from "@vue/composition-api";</script>

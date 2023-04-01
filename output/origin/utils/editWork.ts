@@ -20,13 +20,19 @@ export default function aaa() {
     aa()?.catch(err => {
       message.error(err.msg || "this.$message");
     });
-    aa()?.catch(err => {
+    aa(function (a, b, c) {
+      let a1 = a + b + c;
+      return a;
+    })?.catch(err => {
       message.error(err.msg || "this.$message");
     });
     cc()?.catch(err => {
       message.error(err.msg || "this.$message");
     });
-    cc().then(err => err)?.catch(err1 => {
+    cc(function (a, b, c) {
+      let a1 = a + b + c;
+      return a;
+    })?.then()?.catch(err1 => {
       message.error(err1.msg || "this.$message");
     });
   } catch (error) {}
