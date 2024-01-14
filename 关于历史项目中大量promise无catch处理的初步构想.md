@@ -91,7 +91,7 @@ getPerson({userCode:12345}).catch(error=>{
     message.error(err.msg)
 })
 // 调用submitForm时不需要catch的处理
-submitForm({name:'哆啦A梦',gender:"male"}).then(data=>{
+submitForm({name:'张三',gender:"male"}).then(data=>{
     // 调用下一个接口或处理其他数据
 })
 // getProductList在不同的vue文件调用了多次 
@@ -143,7 +143,7 @@ getPerson({userCode:12345})?.catch(error=>{
         message.error(error)
 })
 // 调用submitForm时不需要catch的处理,但加上了也不会造成新的问题
-submitForm({name:'哆啦A梦',gender:"male"}).then(data=>{
+submitForm({name:'张三',gender:"male"}).then(data=>{
     // 调用下一个接口或处理其他数据
 })?.catch(error=>{
         message.error(error)
@@ -170,7 +170,7 @@ getProductList({catagory:"seefoods"}).then().catch(err=>{
 例如submitForm这个方法，其实已经在内部用catch处理的错误，其实不需要再加上catch
 ```
 // 调用submitForm时不需要catch的处理,但加上了也不会造成新的问题，因为内部处理了错误，所以这里是不会执行到catch里面的
-submitForm({name:'哆啦A梦',gender:"male"}).then(data=>{
+submitForm({name:'张三',gender:"male"}).then(data=>{
     // 调用下一个接口或处理其他数据
 })?.catch(error=>{
         message.error(error)
@@ -185,8 +185,8 @@ submitForm({name:'哆啦A梦',gender:"male"}).then(data=>{
 
 ![image.png](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e8b8306c919c466995d9728761b04891~tplv-k3u1fbpfcp-watermark.image?)
 上面的函数通过babel.parse和babel.traverse，我们可以识别出哪些缺少了catch，那就需要找到前面的代码,进行替换
-
-定义两份模版代码
+****
+**定义两份模版代码**
 
 红框内的方法会被上面蓝框内的代码替换，并把替换后的模版代码代替原来的代码
 
@@ -198,7 +198,36 @@ submitForm({name:'哆啦A梦',gender:"male"}).then(data=>{
 
 而且通过ast中的ImportDeclaration这种节点的source判断，可以判断是不是对这些方法加上catch的处理，例如下图中，只对从common/apis这个路径获取的方法做处理，defineProps和ref并不会被处理
 
-![image.png](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a615d8ced04e49c898edf4de8fec15c2~tplv-k3u1fbpfcp-watermark.image?)
+```
+console.log(import.meta, import.meta.env);
+import { defineComponent } from '@vue/composition-api';
+//只有functionA, functionB, functionC会被处理
+import { functionA, functionB, functionC } from './common/apis';
+export default defineComponent({
+  setup() {
+    try {
+      functionA().then(err => err)?.then()?.catch(err1 => {
+        message.error(err1.msg || 'this.$message');
+      });
+      functionA()?.catch(err => {
+        message.error(err.msg || 'this.$message');
+      });
+      functionC().then(err => err)?.catch(err1 => {
+        message.error(err1.msg || 'this.$message');
+      });
+      functionC()?.catch(err => {
+        message.error(err.msg || 'this.$message');
+      });
+      functionB()?.catch(err => {
+        message.error(err.msg || 'this.$message');
+      });
+      functionA()?.catch(err => {
+        message.error(err.msg || 'this.$message');
+      });
+    } catch (error) {}
+  }
+});</script>
+```
 
 ### 转换代码
 
@@ -209,7 +238,7 @@ submitForm({name:'哆啦A梦',gender:"male"}).then(data=>{
 2. 此次是为了解决历史遗留问题，不需要多次使用，后面应该定好规范和code review规范防范同样的纰漏
 3. 转换脚本还不能很好地处理Promise.all,项目中有几处promise.all的地方还是要靠开发自己识别
 ```
-Promise.all([getProductList,getPerson({userCode:12345}),submitForm({name:'哆啦A梦',gender:"male"})])
+Promise.all([getProductList,getPerson({userCode:12345}),submitForm({name:'张三',gender:"male"})])
 ```
 
 

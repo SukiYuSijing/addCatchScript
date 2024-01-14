@@ -22,7 +22,6 @@ const _ = require('lodash')
 function _transform(fileNameOrDirNameArray, writeFile = true) {
     const absoluteDir = path.resolve(__dirname, ...fileNameOrDirNameArray)
     const absoluteOutDir = path.resolve(__dirname, 'output', ...fileNameOrDirNameArray.slice(0, -1))
-
     const absoluteOutFile = path.resolve(__dirname, 'output', ...fileNameOrDirNameArray)
     const stats = fs.statSync(absoluteDir)
     const isDir = stats.isDirectory(absoluteDir)
@@ -32,8 +31,6 @@ function _transform(fileNameOrDirNameArray, writeFile = true) {
             if (err) {
                 console.log(err, 123, absoluteOutDir);
             }
-
-
             fs.readdir(absoluteDir, (err, files) => {
                 if (err) {
                     throw err
@@ -57,14 +54,11 @@ function _transform(fileNameOrDirNameArray, writeFile = true) {
                 const scriptElements = dom.window.document.querySelectorAll("script")
                 scriptElements.forEach(scriptEle => {
                     let content = scriptEle.innerHTML
-
                     try {
-
                         const output = getTransformResult(content)
                         scriptEle.innerHTML = output.code
                     } catch (error) {
                         console.log(error, absoluteDir);
-
                     }
                 });
                 outputText = dom.window.document.head.innerHTML
@@ -78,12 +72,9 @@ function _transform(fileNameOrDirNameArray, writeFile = true) {
 
                 }
             }
-
             if (writeFile) fs.writeFile(absoluteOutFile, outputText, (err, data) => {
                 console.log(absoluteOutFile, "写入成功");
             })
-
-
         })
 
     }
@@ -134,7 +125,6 @@ function getTransformResult(content, importFilterFunc = (name) => {
                 return path.isIdentifier({ name: name })
             })
             if (shouldEnter) {
-
                 const memberExpressionPath = path.parentPath?.parentPath
                 const callExpressionPath = memberExpressionPath.parentPath
                 const expressStatePath = callExpressionPath.parentPath
@@ -151,7 +141,6 @@ function getTransformResult(content, importFilterFunc = (name) => {
                 if (
                     ["MemberExpression", "OptionalMemberExpression",].includes(memberExpressionPath.type)
                 ) {
-
                     if (memberExpressionPath.node.property.name === 'then') {
 
                         if (callExpressionPath.node && tempBody_thenCatch?.expression) {
